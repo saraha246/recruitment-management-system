@@ -1,3 +1,5 @@
+require('dotenv').config({path: '$process.cwd()/.env'});
+
 const express = require('express');
 const authRouter = require('./route/authRoute');
 
@@ -16,6 +18,16 @@ app.get('/', (req, res) => {
 
 app.use('/api/v1/auth', authRouter);
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+//if route not found/non existent/json format
+app.use((req, res) => {
+    res.status(404).json({
+        status: 'fail',
+        message: 'Route not found'
+    });
+});
+
+const PORT = process.env.APP_PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log('Server is running', PORT);
 });
