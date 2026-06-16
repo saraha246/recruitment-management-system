@@ -2,10 +2,12 @@ require('dotenv').config();
 
 const express = require('express');
 const authRouter = require('./route/authRoute');
+const jobRouter = require('./route/jobRoute');
 
 //create express app
 const app = express();
 app.use(express.json());
+app.use('/api/v1/jobs', jobRouter);
 
 //create a route 
 app.get('/', (req, res) => {
