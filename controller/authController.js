@@ -57,4 +57,62 @@ const signup = async (req, res) => {
     }
 };
 
-module.exports = { signup };
+const login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        // 1. Check if email and password were provided
+        if (!email || !password) {
+            return res.status(400).json({
+                status: 'error',
+                message: 'Please provide email and password'
+            });
+        }
+
+        // 2. Find user by email
+        const user = await User.findOne({ where: { email } });
+        if (!user) {
+            return res.status(401).json({
+                status: 'error',
+                message: 'Incorrect email or password'
+            });
+        }
+
+        // 3. Compare password
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+        if (!isPasswordCorrect) {
+            return res.status(401).json({
+                status: 'error',
+                message: 'Incorrect email or password'
+            });
+        }
+
+        // 4. Generate JWT
+        const token = jwt.sign(
+            { id: user.id, userType: user.userType },
+            process.env.JWT_SECRET,
+            { expiresIn: process.env.JWT_EXPIRES_IN }
+        );
+
+        // 5. Return response
+        res.status(200).json({
+            status: 'success',
+            token,
+            data: {
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                userType: user.userType
+            }
+        });
+
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        });
+    }
+};
+
+module.exports = { signup, login };
