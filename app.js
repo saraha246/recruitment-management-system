@@ -1,10 +1,11 @@
-require('dotenv').config({path: '$process.cwd()/.env'});
+require('dotenv').config();
 
 const express = require('express');
 const authRouter = require('./route/authRoute');
 
 //create express app
 const app = express();
+app.use(express.json());
 
 //create a route 
 app.get('/', (req, res) => {
