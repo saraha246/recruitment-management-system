@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');  //bcrypt and jwt
 const { User } = require('../db/models');
 
 const protect = async (req, res, next) => {

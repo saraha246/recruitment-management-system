@@ -4,13 +4,16 @@ const express = require('express');
 const authRouter = require('./route/authRoute');
 const jobRouter = require('./route/jobRoute');
 const applicationRouter = require('./route/applicationRoute');
+const interviewRouter= require('./route/interviewRoute')
+const adminRouter = require('./route/adminRoute')
 
 //create express app
 const app = express();
 app.use(express.json());
 app.use('/api/v1/jobs', jobRouter);
 app.use('/api/v1/applications', applicationRouter);
-
+app.use('/api/v1/interviews', interviewRouter);
+app.use('/api/v1/admin', adminRouter);
 //create a route 
 app.get('/', (req, res) => {
     res.status(200).json({
