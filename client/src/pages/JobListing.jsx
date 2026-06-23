@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import { messaging } from '../firebase'
 import { getToken, isSupported } from 'firebase/messaging'
-import { onMessage } from 'firebase/messaging'
-import { getFCMToken} from '../firebase'
 
 function JobListing() {
   const [jobs, setJobs] = useState([])
@@ -38,17 +36,9 @@ function JobListing() {
     })
 
     const setupNotifications = async () => {
-      try { 
+      try {
         const permission = await Notification.requestPermission()
-        if (permission === 'granted') {
-          console.log('Notification permission granted');
-          const token = await getFCMToken();
-          if (token) {
-            console.log('FCM Token:', token);
-          }
-        } else {
-          console.log('Notification permission denied');
-        } 
+        if (permission !== 'granted') return
 
         let registration = await navigator.serviceWorker.getRegistration('/')
         if (!registration) {
@@ -77,25 +67,45 @@ function JobListing() {
     if (user) setupNotifications()
   }, [])
 
-  const handleApply = async (jobId) => {
+  const handleApply = (jobId) => {
     if (!user) {
       navigate('/login')
       return
     }
 
-    setApplyingId(jobId)
-    try {
-      await axios.post(
-        'http://localhost:3000/api/v1/applications',
-        { jobId },
-        { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
-      )
-      setAppliedIds([...appliedIds, jobId])
-    } catch (err) {
-      alert(err.response?.data?.message || 'Failed to apply')
-    } finally {
-      setApplyingId(null)
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = '.pdf'
+
+    input.onchange = async (e) => {
+      const file = e.target.files[0]
+      if (!file) return
+
+      setApplyingId(jobId)
+      try {
+        const formData = new FormData()
+        formData.append('jobId', jobId)
+        formData.append('resume', file)
+
+        await axios.post(
+          'http://localhost:3000/api/v1/applications',
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+        )
+        setAppliedIds([...appliedIds, jobId])
+      } catch (err) {
+        alert(err.response?.data?.message || 'Failed to apply')
+      } finally {
+        setApplyingId(null)
+      }
     }
+
+    input.click()
   }
 
   return (
