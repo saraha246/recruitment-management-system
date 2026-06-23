@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import { messaging } from '../firebase'
 import { getToken, isSupported } from 'firebase/messaging'
+import { onMessage } from 'firebase/messaging'
+import { getFCMToken} from '../firebase'
 
 function JobListing() {
   const [jobs, setJobs] = useState([])
@@ -36,9 +38,17 @@ function JobListing() {
     })
 
     const setupNotifications = async () => {
-      try {
+      try { 
         const permission = await Notification.requestPermission()
-        if (permission !== 'granted') return
+        if (permission === 'granted') {
+          console.log('Notification permission granted');
+          const token = await getFCMToken();
+          if (token) {
+            console.log('FCM Token:', token);
+          }
+        } else {
+          console.log('Notification permission denied');
+        } 
 
         let registration = await navigator.serviceWorker.getRegistration('/')
         if (!registration) {

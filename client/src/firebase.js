@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { getMessaging, getToken } from "firebase/messaging";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -22,8 +22,32 @@ export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 export const messaging = getMessaging(app);
 
-export const requestFcmToken = () => {
-  return getToken(messaging, {
-    vapidKey: "BKzKcfFABuNcDc1pObRsqRM4W-rGiwh5WSpI_HzLlIqQgFdSnnqd2osn7jebyt6jIrU6yFmnmZfpURFHeUlaJQI "
-  });
+export const getFCMToken = async () => {
+    try {
+        const token = await getToken(messaging, {
+            vapidKey: "BKzKcfFABuNcDc1pObRsqRM4W-rGiwh5WSpI_HzLlIqQgFdSnnqd2osn7jebyt6jIrU6yFmnmZfpURFHeUlaJQI "
+        });
+        if (token) {
+            console.log("FCM Token:", token);
+            return token;
+        } else {
+            console.log("No FCM token available");
+            return null;
+        }
+    } catch (error) {
+        console.log("FCM Token error:", error.message);
+        return null;
+    }
 };
+
+// Listen for foreground messages
+export const onMessageListener = () =>
+    new Promise((resolve) => {
+        onMessage(messaging, (payload) => {
+            console.log("Foreground message:", payload);
+            resolve(payload);
+        });
+    });
+
+export default app;
+    

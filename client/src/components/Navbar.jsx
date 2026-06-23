@@ -20,6 +20,16 @@ function Navbar() {
 
         {user ? (
           <div className="flex items-center gap-4">
+            {user.userType === 'recruiter' && (
+              <Link to="/post-job" className="text-sm font-medium text-[#0F766E] hover:underline">
+                + Post a job
+              </Link>
+            )}
+            {user.userType === 'admin' && (
+              <Link to="/admin" className="text-sm font-medium text-[#0F766E] hover:underline">
+                Admin panel
+              </Link>
+            )}
             <span className="text-sm text-gray-600">
               {user.firstName} <span className="text-gray-400">·</span> <span className="capitalize text-[#0F766E] font-medium">{user.userType}</span>
             </span>
