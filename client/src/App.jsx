@@ -5,6 +5,7 @@ import JobListing from './pages/JobListing'
 import PostJob from './pages/PostJob'
 import AdminDashboard from './pages/AdminDashboard'
 import ProtectedRoute from './components/ProtectedRoute'
+import ApplicationsInbox from './pages/ApplicationsInbox'
 
 function App() {
   return (
@@ -28,6 +29,14 @@ function App() {
           </ProtectedRoute>
         }
       />
+      <Route
+  path="/applications"
+  element={
+    <ProtectedRoute allowedRoles={['recruiter', 'admin']}>
+      <ApplicationsInbox />
+    </ProtectedRoute>
+  }
+/>
     </Routes>
   )
 }
