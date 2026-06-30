@@ -2,9 +2,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
-import { messaging } from '../firebase'
-import { getToken, isSupported } from 'firebase/messaging'
-
+import { requestFcmToken } from '../firebase'
 function JobListing() {
   const [jobs, setJobs] = useState([])
   const [loading, setLoading] = useState(true)
@@ -30,34 +28,42 @@ function JobListing() {
     fetchJobs()
   }, [])
 
-  useEffect(() => {
-    isSupported().then((supported) => {
-      console.log('Firebase Messaging supported?', supported)
-    })
-
+useEffect(() => {
     const setupNotifications = async () => {
       try {
         const permission = await Notification.requestPermission()
         if (permission !== 'granted') return
 
         let registration = await navigator.serviceWorker.getRegistration('/')
-        if (!registration) {
-          registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js', {
-            scope: '/'
-          })
-        }
-        await navigator.serviceWorker.ready
 
-        const token = await getToken(messaging, {
-          vapidKey: 'BKzKcfFABuNcDc1pObRsqRM4W-rGiwh5WSpI_HzLlIqQgFdSnnqd2osn7jebyt6jIrU6yFmnmZfpURFHeUlaJQI',
-          serviceWorkerRegistration: registration
-        })
+        if (!registration) {
+  registration = await navigator.serviceWorker.register(
+    '/firebase-messaging-sw.js',
+    { scope: '/' }
+  )
+}
+
+console.log('Registration:', registration)
+console.log('Active:', registration?.active)
+console.log('Waiting:', registration?.waiting)
+console.log('Installing:', registration?.installing)
+
+const token = await requestFcmToken(
+  'BKzKcfFABuNcDc1pObRsqRM4W-rGiwh5WSpI_HzLlIqQgFdSnnqd2osn7jebyt6jIrU6yFmnmZfpURFHeUlaJQI',
+  registration
+)
+
+console.log('FCM Token:', token)
 
         if (token && user) {
+
+          console.log("Sending token to backend...")
+
           await axios.post('http://localhost:3000/api/v1/users/fcm-token',
             { fcmToken: token },
             { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
           )
+          console.log("Token saved successfully")
         }
       } catch (err) {
         console.log('Notification permission error:', err)
@@ -65,7 +71,7 @@ function JobListing() {
     }
 
     if (user) setupNotifications()
-  }, [])
+}, [])
 
   const handleApply = (jobId) => {
     if (!user) {

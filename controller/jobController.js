@@ -1,6 +1,6 @@
 const { Job } = require('../db/models');
 
-// Get all jobs
+
 const getAllJobs = async (req, res) => {
     try {
         const jobs = await Job.findAll({
@@ -18,7 +18,7 @@ const getAllJobs = async (req, res) => {
     }
 };
 
-// Get single job
+
 const getJob = async (req, res) => {
     try {
         const job = await Job.findByPk(req.params.id);
@@ -32,7 +32,7 @@ const getJob = async (req, res) => {
     }
 };
 
-// Create job
+
 const createJob = async (req, res) => {
     try {
         const { title, description, department, location, salaryRange, jobType } = req.body;
@@ -54,7 +54,7 @@ const createJob = async (req, res) => {
     }
 };
 
-// Update job
+
 const updateJob = async (req, res) => {
     try {
         const job = await Job.findByPk(req.params.id);
@@ -70,7 +70,7 @@ const updateJob = async (req, res) => {
     }
 };
 
-// Delete job
+
 const deleteJob = async (req, res) => {
     try {
         const job = await Job.findByPk(req.params.id);
