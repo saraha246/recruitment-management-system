@@ -6,6 +6,9 @@ import PostJob from './pages/PostJob'
 import AdminDashboard from './pages/AdminDashboard'
 import ProtectedRoute from './components/ProtectedRoute'
 import ApplicationsInbox from './pages/ApplicationsInbox'
+import VerifyOTP from "./pages/VerifyOTP";
+
+
 
 function App() {
   return (
@@ -13,6 +16,8 @@ function App() {
       <Route path="/" element={<JobListing />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/verify-otp" element={<VerifyOTP />} />
+
             <Route
         path="/post-job"
         element={

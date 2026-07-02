@@ -18,22 +18,44 @@ function Register() {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault()
+  //   setError('')
+
+  //   try {
+  //     const res = await axios.post('http://localhost:3000/api/v1/auth/signup', formData)
+
+  //     localStorage.setItem('token', res.data.token)
+  //     localStorage.setItem('user', JSON.stringify(res.data.data))
+
+  //     navigate('/')
+  //     window.location.reload()
+  //   } catch (err) {
+  //     setError(err.response?.data?.message || 'Registration failed')
+  //   }
+  // }
+
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError('')
+  e.preventDefault();
+  setError('');
 
-    try {
-      const res = await axios.post('http://localhost:3000/api/v1/auth/signup', formData)
+  try {
+    const res = await axios.post(
+      'http://localhost:3000/api/v1/auth/signup',
+      formData
+    );
 
-      localStorage.setItem('token', res.data.token)
-      localStorage.setItem('user', JSON.stringify(res.data.data))
+    // Go to OTP verification page
+    navigate('/verify-otp', {
+      state: {
+        email: res.data.email
+      }
+    });
 
-      navigate('/')
-      window.location.reload()
-    } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed')
-    }
+  } catch (err) {
+    setError(err.response?.data?.message || 'Registration failed');
   }
+};
 
   return (
     <div className="min-h-screen bg-[#F3F4F6]">

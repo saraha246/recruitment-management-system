@@ -18,9 +18,32 @@ module.exports = (sequelize, DataTypes) => {
     userType: DataTypes.STRING,
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
-    email: DataTypes.STRING,
+    email: {
+        type: DataTypes.STRING,
+        unique: true
+    },
+
     password: DataTypes.STRING,
-    isActive: DataTypes.BOOLEAN,
+
+    isActive: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
+    },
+
+    isVerified: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
+
+    emailOtp: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+
+    otpExpires: {
+        type: DataTypes.DATE,
+        allowNull: true
+    },
     fcmToken: DataTypes.STRING
   }, {
     sequelize,

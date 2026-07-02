@@ -11,7 +11,8 @@ function JobListing() {
   const [appliedIds, setAppliedIds] = useState([])
   const navigate = useNavigate()
 
-  const user = JSON.parse(localStorage.getItem('user'))
+  // const user = JSON.parse(localStorage.getItem('user'))
+const user = JSON.parse(localStorage.getItem('user') || 'null')
 
   useEffect(() => {
     const fetchJobs = async () => {
