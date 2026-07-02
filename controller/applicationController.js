@@ -30,7 +30,7 @@ const applyForJob = async (req, res) => {
                     contentType: req.file.mimetype
                 });
 
-            console.log('Supabase response:', { data, error });
+            
 
             if (error) {
                 return res.status(500).json({ status: 'error', message: 'Resume upload failed: ' + error.message });
@@ -50,7 +50,7 @@ const applyForJob = async (req, res) => {
 
         res.status(201).json({ status: 'success', data: application });
     } catch (err) {
-        console.log('CATCH ERROR:', err);
+        
         res.status(500).json({ status: 'error', message: err.message });
     }
 };
