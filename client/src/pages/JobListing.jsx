@@ -17,7 +17,7 @@ const user = JSON.parse(localStorage.getItem('user') || 'null')
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/api/v1/jobs')
+        const res = await axios.get('https://recruitment-management-system-production.up.railway.app/api/v1/jobs')
         setJobs(res.data.data)
       } catch (err) {
         setError('Failed to load jobs')
@@ -60,7 +60,7 @@ console.log('FCM Token:', token)
 
           console.log("Sending token to backend...")
 
-          await axios.post('http://localhost:3000/api/v1/users/fcm-token',
+          await axios.post('https://recruitment-management-system-production.up.railway.app/api/v1/users/fcm-token',
             { fcmToken: token },
             { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
           )
@@ -95,7 +95,7 @@ console.log('FCM Token:', token)
         formData.append('resume', file)
 
         await axios.post(
-          'http://localhost:3000/api/v1/applications',
+          'https://recruitment-management-system-production.up.railway.app/api/v1/applications',
           formData,
           {
             headers: {

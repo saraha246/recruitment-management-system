@@ -14,7 +14,7 @@ function ApplicationsInbox() {
     const fetchApplications = async () => {
       try {
         const res = await axios.get(
-          'http://localhost:3000/api/v1/applications',
+          'https://recruitment-management-system-production.up.railway.app/api/v1/applications',
           { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
         )
         setApplications(res.data.data)
@@ -32,7 +32,7 @@ function ApplicationsInbox() {
     setUpdatingId(id)
     try {
       await axios.patch(
-        `http://localhost:3000/api/v1/applications/${id}`,
+        `https://recruitment-management-system-production.up.railway.app/api/v1/applications/${id}`,
         { status: newStatus },
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
       )

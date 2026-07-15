@@ -14,7 +14,7 @@
 //     setError('')
 
 //     try {
-//       const res = await axios.post('http://localhost:3000/api/v1/auth/login', {
+//       const res = await axios.post('https://recruitment-management-system-production.up.railway.app/api/v1/auth/login', {
 //         email,
 //         password
 //       })
@@ -108,7 +108,7 @@ function Login() {
     setError('')
 
     try {
-      const res = await axios.post('http://localhost:3000/api/v1/auth/login', {
+      const res = await axios.post('https://recruitment-management-system-production.up.railway.app/api/v1/auth/login', {
         email,
         password
       })
@@ -129,7 +129,7 @@ function Login() {
       const result = await signInWithPopup(auth, googleProvider)
       const idToken = await result.user.getIdToken()
 
-      const res = await axios.post('http://localhost:3000/api/v1/auth/google-login', {
+      const res = await axios.post('https://recruitment-management-system-production.up.railway.app/api/v1/auth/google-login', {
         idToken
       })
 

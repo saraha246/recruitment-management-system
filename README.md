@@ -163,7 +163,7 @@ npm run dev
 ```
 
 Frontend runs on `http://localhost:5173` (or `5174` if port is in use)  
-Backend runs on `http://localhost:3000`
+Backend runs on `https://recruitment-management-system-production.up.railway.app`
 
 ---
 

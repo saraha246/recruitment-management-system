@@ -11,7 +11,7 @@ function AdminDashboard() {
     const fetchUsers = async () => {
       try {
         const res = await axios.get(
-          'http://localhost:3000/api/v1/admin/users',
+          'https://recruitment-management-system-production.up.railway.app/api/v1/admin/users',
           { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
         )
         setUsers(res.data.data)
@@ -28,7 +28,7 @@ function AdminDashboard() {
   const handleDeactivate = async (id) => {
     try {
       await axios.patch(
-        `http://localhost:3000/api/v1/admin/users/${id}/deactivate`,
+        `https://recruitment-management-system-production.up.railway.app/api/v1/admin/users/${id}/deactivate`,
         {},
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
       )

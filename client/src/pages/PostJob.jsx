@@ -26,7 +26,7 @@ function PostJob() {
 
     try {
       await axios.post(
-        'http://localhost:3000/api/v1/jobs',
+        'https://recruitment-management-system-production.up.railway.app/api/v1/jobs',
         formData,
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
       )
