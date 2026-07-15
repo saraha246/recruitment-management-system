@@ -14,7 +14,13 @@ const transporter = require('./config/mail');
 //create express app
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: [
+    'https://recruitment-management-system-puce.vercel.app',
+    'http://localhost:5173',
+    'http://localhost:5174'
+  ]
+}));
 app.use('/api/v1/jobs', jobRouter);
 app.use('/api/v1/applications', applicationRouter);
 app.use('/api/v1/interviews', interviewRouter);
