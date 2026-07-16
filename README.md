@@ -165,6 +165,11 @@ npm run dev
 Frontend runs on `http://localhost:5173` (or `5174` if port is in use)  
 Backend runs on `https://recruitment-management-system-production.up.railway.app`
 
+### 9. Deployment/Live Demo
+Frontend: https://recruitment-management-system-puce.vercel.app
+Backend API: https://recruitment-management-system-production.up.railway.app
+
+
 ---
 
 ## API Endpoints
